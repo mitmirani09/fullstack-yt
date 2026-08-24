@@ -1,0 +1,12 @@
+{
+  "name": "fullstack-yt",
+  "version": "1.0.0",
+  "description": "backend project",
+  "license": "ISC",
+  "author": "Mit Mirani",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
