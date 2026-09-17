@@ -7,12 +7,12 @@ cloudinary.config({
 });
 
 
-const uploadOnCloudinary = async (filePath) => {
+const uploadOnCloudinary = async (localFilePath) => {
     try {
-        if (!filePath) return null;
+        if (!localFilePath) return null;
 
         // uploading on cloudinary
-        const response = await cloudinary.uploader.upload(filePath, {
+        const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto"
         })
 
@@ -20,7 +20,7 @@ const uploadOnCloudinary = async (filePath) => {
         return response;
 
     } catch (error) {
-        unlinkSync(filePath); // on error removing the temp saved file
+        unlinkSync(localFilePath); // on error removing the temp saved file
         return null;
     }
 }
