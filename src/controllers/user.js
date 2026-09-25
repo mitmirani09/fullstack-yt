@@ -7,10 +7,9 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 //helper function for generating access and refresh token based on user id
 const generateAccessAndRefreshToken = async (userId) => {
     try {
-        const user = await User.findOne({ userId })
+        const user = await User.findById(userId);
         const accessToken = user.generateAccessToken();
         const refreshToken = user.generateRefreshToken();
-
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
 
@@ -112,7 +111,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
 
-    const loggedInUser = await User.findById(user._id).select("-password -refresToken");
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
 
 
@@ -132,6 +131,7 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
+
     await User.findByIdAndUpdate(
         req.user._id,
         {
@@ -140,7 +140,7 @@ const logoutUser = asyncHandler(async (req, res) => {
             }
         },
         {
-            new: true
+            returnDocument: "after"
         }
     )
 
